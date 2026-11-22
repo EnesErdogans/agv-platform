@@ -1,0 +1,14 @@
+# Pi üzerinde:  docker compose up -d --build
+services:
+  rosbridge:
+    build: .
+    network_mode: host          # 9090 portu ve ROS 2 DDS keşfi için
+    restart: unless-stopped
+  # RPLIDAR A1M8 (isteğe bağlı): /scan yayınlar
+  rplidar:
+    build: .
+    network_mode: host
+    restart: unless-stopped
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    command: bash -c "source /opt/ros/humble/setup.bash && ros2 launch rplidar_ros rplidar_a1_launch.py serial_port:=/dev/ttyUSB0 frame_id:=laser"

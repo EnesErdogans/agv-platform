@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AGV-UGV Fleet Studio</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header id="top">
+  <div class="brand"><span class="mark"></span><b>Fleet Studio</b><span id="conn" class="pill off" title="Sunucu bağlantısı">●</span></div>
+
+  <div class="group" title="Simülasyon">
+    <button id="btnPlay" class="icon" title="Başlat / Duraklat (P)">⏸</button>
+    <select id="selSpeed" title="Simülasyon hızı">
+      <option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option>
+    </select>
+    <button id="btnReset" class="icon" title="Simülasyonu sıfırla: araçları başlangıç konumuna al">↺</button>
+    <span id="clock" class="mono">00:00.0</span>
+  </div>
+
+  <div class="group tools" id="tools" title="Harita araçları">
+    <button data-tool="select" class="on" title="Seç / kaydır (1)">Seç</button>
+    <button data-tool="goto" title="Seçili aracı tıklanan noktaya gönder; sürükleyerek yön ver (2)">Git</button>
+    <button data-tool="pose" title="Seçili aracın konumunu ayarla (3)">Konum</button>
+    <span class="sep"></span>
+    <button data-tool="wall" title="Duvar çiz">Duvar</button>
+    <button data-tool="box" title="Engel (kutu) çiz">Engel</button>
+    <button data-tool="station" title="İstasyon ekle">İstasyon</button>
+    <button data-tool="tape" title="Şerit (çizgi) çiz">Şerit</button>
+    <button data-tool="zone" title="Zemin bölgesi çiz: çim, çakıl, kum, çamur, kapalı alan">Zemin</button>
+    <button data-tool="erase" title="Harita öğesi sil">Sil</button>
+  </div>
+
+  <div class="group" id="layers" title="Katmanlar">
+    <label title="Sahanın gerçek duvar ve engelleri. Kapatınca yalnızca LiDAR ile çıkarılan harita görünür"><input type="checkbox" data-layer="site" checked>Saha</label>
+    <label title="LiDAR ile çıkarılan doluluk haritası (Sensörler sekmesinden başlatılır)"><input type="checkbox" data-layer="scan" checked>Tarama</label>
+    <label><input type="checkbox" data-layer="lidar" checked>LiDAR</label>
+    <label><input type="checkbox" data-layer="path" checked>Yol</label>
+    <label><input type="checkbox" data-layer="trail" checked>İz</label>
+    <label><input type="checkbox" data-layer="sensors" checked>Sensör</label>
+  </div>
+
+  <div class="spacer"></div>
+  <select id="selMap" title="Etkin harita"></select>
+  <button id="btnMenu" title="Harita işlemleri: yeni, çoğalt, yeniden adlandır, temizle, sil">Harita ▾</button>
+  <button id="btnSave" title="Tüm haritaları ve filoyu kaydet (Ctrl+S)">Kaydet</button>
+  <button id="btnEstop" class="estop">ACİL DURDUR</button>
+</header>
+
+<main>
+  <aside id="fleet">
+    <div class="head"><span>Filo</span><span><button id="btnFleet" title="Filo işlemleri">⋯</button> <button id="btnAdd" class="accent">+ Araç</button></span></div>
+    <div id="cards"></div>
+  </aside>
+
+  <section id="stage">
+    <canvas id="map"></canvas>
+    <div id="hud" class="mono"></div>
+    <div id="hint"></div>
+    <button id="btnFit" title="Haritayı sığdır (F)">⤢</button>
+  </section>
+
+  <aside id="side">
+    <nav id="tabs">
+      <button data-tab="control" class="on">Kontrol</button>
+      <button data-tab="sensors">Sensörler</button>
+      <button data-tab="design">Tasarım</button>
+      <button data-tab="code">Kod</button>
+      <button data-tab="link">Bağlantı</button>
+    </nav>
+    <div id="panel"></div>
+  </aside>
+</main>
+
+<footer id="log"><div class="head"><span>Olay günlüğü</span><button id="btnLogToggle">▾</button></div><div id="logBody" class="mono"></div></footer>
+<div id="modal" hidden></div>
+<script src="examples.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

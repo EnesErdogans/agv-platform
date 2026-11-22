@@ -1,0 +1,79 @@
+{
+  "name": "agv-fleet-studio",
+  "productName": "AGV-UGV Fleet Studio",
+  "version": "1.1.0",
+  "description": "AGV ve UGV simulasyonu + gercek arac filo kontrol paneli",
+  "author": "Enes Erdogan",
+  "license": "MIT",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "server": "node server/index.js",
+    "test": "node test/run.js",
+    "dist:win": "node build/make-win-installer.js",
+    "dist:linux": "electron-builder --linux AppImage --x64 --publish never",
+    "dist:win:native": "electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "serialport": "^12.0.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.sumer.agvfleetstudio",
+    "productName": "AGV-UGV Fleet Studio",
+    "files": [
+      "electron/**",
+      "server/**",
+      "web/**",
+      "config/**",
+      "package.json",
+      "!**/node_modules/@serialport/bindings-cpp/prebuilds/{android-arm,android-arm64,linux-arm,darwin-x64+arm64}/**"
+    ],
+    "extraResources": [
+      {
+        "from": "firmware",
+        "to": "firmware"
+      },
+      {
+        "from": "ros2",
+        "to": "ros2"
+      },
+      {
+        "from": "examples",
+        "to": "examples"
+      },
+      {
+        "from": "README.md",
+        "to": "README.md"
+      }
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "AGV-UGV Fleet Studio"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Development",
+      "maintainer": "Enes Erdogan <noreply@example.com>",
+      "artifactName": "AGV-UGV-Fleet-Studio-${version}.${ext}"
+    },
+    "publish": null
+  }
+}
